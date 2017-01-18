@@ -1,0 +1,6 @@
+[Unit]
+Description=batterylevel
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/bin/batterylevel --force
