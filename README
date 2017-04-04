@@ -1,0 +1,5 @@
+BatteryLevel
+============
+
+A simple script that reads battery values and performs some actions and plays
+some sound alerts.

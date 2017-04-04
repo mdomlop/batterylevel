@@ -7,9 +7,9 @@ Watchs battery levels and performs some actions.
 
 AUTHORS: Manuel Domínguez López. See AUTHORS file.
 
-LICENSE: GPLv3+. Read COPYRIGHT file.
+LICENSE: GPLv3+. Read LICENSE file.
 
-Version: 0.1 2017.01.18
+Version: 0.3a 2017.01.18
 
 Depends: beep pcspkr
 
@@ -25,11 +25,23 @@ class Battery:
     pass
 
 
+def version():
+    print('''
+BatteryLevel version 0.2a
+Copyright (c) 2017  Manuel Domínguez López
+
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions. See the file LICENSE for details.
+''')
+
+
 def loadconfig(cfile='/etc/batterylevel.ini'):
     global config
     config = configparser.ConfigParser()
     config['DEFAULT'] = {  # Hardcoding default settings values:
             'name': 'BAT0',
+            'forced': 'False',
 
             'alarm_level': '10',
             'warning_level': '25',
@@ -91,19 +103,19 @@ def set_settings():
     if settings.alarm_level:
         battery.alarm_level = settings.alarm_level
     else:
-        battery.alarm_level = int(config[battery.name]['alarm_level'])
+        battery.alarm_level = config[battery.name].getint('alarm_level')
     if settings.warning_level:
         battery.warning_level = settings.warning_level
     else:
-        battery.warning_level = int(config[battery.name]['warning_level'])
+        battery.warning_level = config[battery.name].getint('warning_level')
     if settings.info_level:
         battery.info_level = settings.info_level
     else:
-        battery.info_level = int(config[battery.name]['info_level'])
+        battery.info_level = config[battery.name].getint('info_level')
     if settings.safe_level:
         battery.safe_level = settings.safe_level
     else:
-        battery.safe_level = int(config[battery.name]['safe_level'])
+        battery.safe_level = config[battery.name].getint('safe_level')
 
     battery.full_level = config[battery.name]['full_level']
 
@@ -118,6 +130,7 @@ def set_settings():
     battery.info_command = config[battery.name]['info_command']
     battery.safe_command = config[battery.name]['safe_command']
     battery.full_command = config[battery.name]['full_command']
+    battery.forced = config[battery.name].getboolean('forced')
 
 
 def debug():
@@ -143,7 +156,8 @@ def debug():
             'warning_command', battery.warning_command, '\n',
             'info_command', battery.info_command, '\n',
             'safe_command', battery.safe_command, '\n',
-            'full_command', battery.full_command, '\n'
+            'full_command', battery.full_command, '\n',
+            'forced', battery.forced
             )
 
 
@@ -166,6 +180,7 @@ def parseargs():
     parser.add_argument('-s', '--safe_level', type=int)
     parser.add_argument('-f', '--full_level')
 
+    parser.add_argument('-m', '--manager', action='store_true')
     parser.add_argument('-v', '--verbose', action='store_true')
     parser.add_argument('--version', action='store_true')
 
@@ -176,69 +191,79 @@ def parseargs():
     settings = parser.parse_args()
 
 
+def sound(cmd):
+    test_beeper()
+    os.system(cmd)
+
+
 def actions():
-    test_beeper()  # No actions if no beeper
     if battery.present == 1:
-        if settings.verbose:
+        if settings.verbose or not settings.manager:
             print('Battery is present: ' + config[battery.name]['name'])
             print('Capacity: ' + str(battery.capacity))
     else:
-        if settings.verbose:
+        if settings.verbose or not settings.manager:
             print('Battery is not present: ' + battery.name)
         exit(0)
 
     if battery.status == 'Discharging':
-        if settings.verbose:
+        if settings.verbose or not settings.manager:
             print('Status: discharging')
         if battery.capacity < battery.alarm_level:
-            if settings.verbose:
+            if settings.verbose or not settings.manager:
                 print('Battery capacity is less than alarm level: ' +
                       str(battery.alarm_level))
             print('Alarm: Battery level too low!')
-            os.system(battery.alarm_sound)
-            if not settings.debug:
-                os.system(battery.alarm_command)
+            if settings.manager:
+                sound(battery.alarm_sound)
+                if not settings.debug:
+                    os.system(battery.alarm_command)
         elif battery.capacity < battery.warning_level:
-            if settings.verbose:
+            if settings.verbose or not settings.manager:
                 print('Battery capacity is less than warning level: ' +
                       str(battery.warning_level))
             print('Warning: Battery level reaches the warning state')
             print('Connect the AC or the system will halt soon.')
-            os.system(battery.warning_sound)
-            if battery.warning_command:
-                os.system(battery.warning_command)
+            if settings.manager:
+                sound(battery.warning_sound)
+                if battery.warning_command:
+                    os.system(battery.warning_command)
         elif battery.capacity < battery.info_level:
-            if settings.verbose:
+            if settings.verbose or not settings.manager:
                 print('Battery capacity is less than info level: ' +
                       str(battery.info_level))
             print('Info: Battery low. Please connect the system to a AC.')
-            os.system(battery.info_sound)
-            if battery.info_command:
-                os.system(battery.info_command)
+            if settings.manager:
+                sound(battery.info_sound)
+                if battery.info_command:
+                    os.system(battery.info_command)
     elif battery.status == 'Charging':
-        if settings.verbose:
+        if settings.verbose or not settings.manager:
             print('Status: charging')
         if battery.capacity > battery.safe_level:
-            if settings.verbose:
+            if settings.verbose or not settings.manager:
                 print('Battery capacity is more than safe level: ' +
                       str(battery.safe_level))
             print('Battery almost full. Please disconnect the system from AC.')
-            os.system(battery.safe_sound)
-            if battery.safe_command:
-                os.system(battery.safe_command)
+            if settings.manager:
+                sound(battery.safe_sound)
+                if battery.safe_command:
+                    os.system(battery.safe_command)
         elif battery.capacity > 100:  # Yes. It is posible.
-            if settings.verbose:
+            if settings.verbose or not settings.manager:
                 print('Battery capacity is over 100 %: ' +
                       str(battery.capacity))
             print('Battery almost full. Disconnect the system from AC.')
-            os.system(battery.full_sound)
-            if battery.full_command:
-                os.system(battery.full_command)
+            if settings.manager:
+                sound(battery.full_sound)
+                if battery.full_command:
+                    os.system(battery.full_command)
     elif battery.status == battery.full_level:
         print('Battery full. Please disconnect AC right now!')
-        os.system(battery.full_sound)
-        if battery.full_command:
-            os.system(battery.full_command)
+        if settings.manager:
+            sound(battery.full_sound)
+            if battery.full_command:
+                os.system(battery.full_command)
     else:
         print('UNKNOWN STATUS: ' + battery.status + 'PLEASE DEBUG!',
               file=sys.stderr)
@@ -248,8 +273,6 @@ def actions():
 def test_beeper():
     ''' Test if pcspkr driver for beeper is loaded.
     Needed for sound alarms '''
-    global forced
-    forced = False
     loaded = False
     module = 'pcspkr'
     f = open('/proc/modules', "r")
@@ -265,21 +288,10 @@ def test_beeper():
             one will want to force execution even if module fails. '''
             print('Forced module load:', module)
             os.system('modprobe pcspkr')
-            forced = True
+            battery.forced = True
         else:
-            print('Sorry', module, 'not loaded. No sound alarm will output')
+            print('Sorry', module, 'not loaded. No sound alarm will output.')
             exit(3)  # Not exit if forced and NOT loaded
-
-
-def version():
-    print('''
-BatteryLevel version 0.1a
-Copyright (c) 2017  Manuel Domínguez López
-
-This program comes with ABSOLUTELY NO WARRANTY.
-This is free software, and you are welcome to redistribute it
-under certain conditions. See the file LICENSE for details.
-''')
 
 
 def main():
@@ -301,7 +313,7 @@ def main():
 
     actions()
 
-    if forced:
+    if settings.manager and battery.forced:
         os.system('rmmod pcspkr')
 
     return 0

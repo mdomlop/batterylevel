@@ -1,0 +1,7 @@
+BatteryLevel Frequently Asked Questions
+=======================================
+
+* *Q):* *When daemon mode will be implemented?*
+
+* *A):* There is no really a big need of it, since systemd will do this function
+    very well. Or cron.

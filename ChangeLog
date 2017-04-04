@@ -1,0 +1,19 @@
+2017-01-19  Manuel Domínguez López  <mdomlop@gmail.com>
+
+	* Version 0.3a.
+
+	* src/batterylevel.py: Manager mode implemented. No actions or sounds by
+	default.
+
+	* Version 0.2a. The Documentation Update
+
+	* src/batterylevel.py: New function sound for load pcspkr module only when
+	really it will be used.
+
+	* src/batterylevel.py, src/batterylevel.ini, src/batterylevel.service: Minor
+	changes to allow dynamic load of pcspkr module when `--force`.
+
+	* NEWS, ChangeLog, BUGS, FAQ, INSTALL, README, THANKS, TODO: Documentation files were added.
+
+	* examples: New directory with some examples added.
+

@@ -12,11 +12,11 @@ batterylevel(1) -- Performs some actions based on battery levels
 actions based on it.
 
 When `batterylevel` is executed without options it will read the config file in
-`/etc/batterylevel.ini` and will print text advices to stdout. It also plays
-some sounds through beep speaker if the necessary module (pcspkr) are avaible.
-Is posible to set a specific command for custom actions in configuration file.
-By default custom actions are poweroff the system for alarm status and sync for
-warning status.
+`/etc/batterylevel.ini` and will print text advices to stdout. It `-m` option
+was provided also plays some sounds through beep speaker if the necessary module
+(pcspkr) are avaible. Is posible to set a specific command for custom actions in
+configuration file. By default custom actions are poweroff the system for alarm
+status and sync for warning status.
 
 If there are not a configuration file the program will catch the default options
 hardcoded in source. Commandline options will overwrite the precedent values.
@@ -28,8 +28,8 @@ There are some configuration files avaibles in
 if you pretend it more easy.
 
 
-`batterylevel` is primarily thinked to be periodically executed by itself (not
-implemented yet) o by another agent like cron or a systemd timer.
+`batterylevel` is primarily thinked to be periodically executed (with `-m`) by
+itself (not implemented yet) o by another agent like cron or a systemd timer.
 
 
 ## PERIODICALLY EXECUTION WITH SYSTEMD
@@ -60,6 +60,10 @@ There are the avaible commandlne options:
     Indicates what *file* will be used as configuration instead of
     predeterminated `/etc/batterylevel.ini`. The program will get values from
     it. Please `batterylevel.ini(5)` for additional information.
+
+* `-m`, `--manager`:
+    Activates *manager mode*, in which sounds and commands will be executed if
+    necessary.
 
 * `-n`, `--name`=[<name>]:
     Indicates name of the section to use from configuration. Not Indicates the

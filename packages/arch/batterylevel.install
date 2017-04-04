@@ -1,0 +1,23 @@
+post_upgrade() {
+    if systemctl is-active batterylevel.timer
+    then
+        echo 'Reloading daemons for systemd... '
+        systemctl daemon-reload
+    else
+        echo -e '\nbatterylevel.timer was not active. Nothing to do.'
+    fi
+}
+
+pre_remove() {
+    if systemctl is-active batterylevel.timer
+    then
+        echo 'Stoping batterylevel.timer... '
+        systemctl stop batterylevel.timer
+    fi
+    if systemctl is-enabled batterylevel.timer
+    then
+        echo 'Disabling batterylevel.timer... '
+        systemctl disable batterylevel.timer
+    fi
+}
+

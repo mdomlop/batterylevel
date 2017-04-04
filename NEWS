@@ -1,0 +1,19 @@
+BatteryLevel NEWS
+=================
+
+CHANGES WITH 0.2a (The Documentation Update):
+
+* Provided NEWS, ChangeLog and such documentation files.
+
+* Added some examples files at directory examples.
+
+* Systemd service provided don't use `--forced` by default.
+
+* Configuration file has a new property: forced.
+
+* Do not try to load module if no beep will sound.
+
+* Option to make and install a package for Arch Linux with:
+
+    make arch-package
+    make arch-install

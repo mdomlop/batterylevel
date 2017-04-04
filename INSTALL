@@ -1,0 +1,49 @@
+INSTALL
+=======
+
+Dependencies:
+-------------
+
+To install and run batterylevel, you'll need the following packages:
+
+* python >= 3 (3.6.0 is recommended)
+
+Optionally you may want to provide:
+
+* beep If you want sound alerts.
+
+
+Compiling batterylevel
+----------------------
+
+Since batterylevel level is just a python script no compilation is needed. For
+installing batterylevel only run:
+
+    make install
+
+And for uninstalling:
+
+    make uninstall
+
+Don't forget to start and enable systemd timer if you want this service:
+
+    make service-up
+
+Uninstalling may also stop and disable such service.
+
+
+PACKAGING
+---------
+
+Optionally you can build a package for Arch Linux. There is a PKGBUILD:
+
+    https://github.com/manueldl/PKGBUILDS/batterylevel
+
+
+
+Links
+-----
+
+* Project's main page:
+
+    https://github.com/manueldl/batterylevel
