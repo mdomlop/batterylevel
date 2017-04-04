@@ -50,6 +50,7 @@ clean:
 pacman:
 	mkdir $(TEMPDIR)
 	cp packages/pacman/PKGBUILD $(TEMPDIR)/
+	cp packages/pacman/$(NAME).install $(TEMPDIR)/
 	cd $(TEMPDIR); makepkg -dr
 	cp $(TEMPDIR)/$(NAME)-*.pkg.tar.xz packages/pacman/
 	rm -rf $(TEMPDIR)
