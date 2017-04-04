@@ -5,7 +5,7 @@ _pkgver_month=04
 _pkgver_day=04
 
 _gitname=batterylevel
-pkgname==${_gitname}-git
+pkgname=${_gitname}-git
 pkgver=1
 pkgrel=1
 pkgdesc="Watchs battery levels and performs some actions"
