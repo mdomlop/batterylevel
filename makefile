@@ -19,7 +19,6 @@ install:
 	install -Dm644 TODO $(PREFIX)/share/doc/$(NAME)/TODO
 	install -Dm644 examples/batterylevel.ini $(PREFIX)/share/doc/$(NAME)/examples/batterylevel.ini
 	install -Dm644 examples/batterylevel.service $(PREFIX)/share/doc/$(NAME)/examples/batterylevel.service
-	systemctl daemon-reload
 	@echo You may want to run make service-up to start and enable service.
 
 uninstall: service-down
@@ -31,9 +30,9 @@ uninstall: service-down
 	rm -rf $(PREFIX)/share/doc/$(NAME)/
 
 service-up:
+	systemctl daemon-reload
 	systemctl start $(NAME).timer
 	systemctl enable $(NAME).timer
-	systemctl daemon-reload
 
 service-down:
 	systemctl stop $(NAME).timer
