@@ -37,7 +37,7 @@ PACKAGING
 
 Optionally you can build a package for Arch Linux. There is a PKGBUILD:
 
-    https://github.com/manueldl/PKGBUILDS/batterylevel
+    https://github.com/mdomlop/PKGBUILDS/batterylevel
 
 
 
@@ -46,4 +46,4 @@ Links
 
 * Project's main page:
 
-    https://github.com/manueldl/batterylevel
+    https://github.com/mdomlop/batterylevel
