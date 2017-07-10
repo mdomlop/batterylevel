@@ -1,0 +1,4 @@
+makefile
+*.pkg.tar.xz
+*.swp
+*.kate-swp
