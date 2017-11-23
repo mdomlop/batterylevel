@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Batterylevel
 ============
@@ -20,6 +20,35 @@ import os
 import argparse
 import configparser
 
+PROGRAM_NAME = "BatteryLevel"
+EXECUTABLE_NAME = "batterylevel"
+DESCRIPTION = "Reads battery values, performs some actions and plays some sound alerts."
+VERSION = "0.4a"
+AUTHOR = "Manuel Domínguez López"  # See AUTHORS file
+MAIL = "mdomlop@gmail.com"
+SOURCE = "https://github.com/mdomlop/batterylevel"
+LICENSE = "GPLv3+"  # Read LICENSE file.
+
+COPYRIGHT = '''
+Copyright: 2017 Manuel Domínguez López <mdomlop@gmail.com>
+License: GPL-3.0+
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
+'''
 
 class Battery:
     pass

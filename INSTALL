@@ -13,37 +13,42 @@ Optionally you may want to provide:
 * beep If you want sound alerts.
 
 
-Compiling batterylevel
-----------------------
+Installation
+------------
 
-Since batterylevel level is just a python script no compilation is needed. For
-installing batterylevel only run:
+You can choose between different installation methods.
 
-    make install
+### Classic method ###
 
-And for uninstalling:
+- Build and install:
 
-    make uninstall
+        $ make
+        # make install
 
-Don't forget to start and enable systemd timer if you want this service:
+- Uninstall:
 
-    make service-up
-
-Uninstalling may also stop and disable such service.
+        # make uninstall
 
 
-PACKAGING
----------
+### Arch Linux package ###
 
-Optionally you can build a package for Arch Linux. There is a PKGBUILD:
+- Build and install:
 
-    https://github.com/mdomlop/PKGBUILDS/batterylevel
+        $ make pkg
+        # pacman -U snapman-*.pkg.xz
+
+- Uninstall:
+
+        # pacman -Rsc snapman
 
 
+### Debian package ###
 
-Links
------
+- Build and install:
 
-* Project's main page:
+        $ make deb
+        # dpkg -i snapman_*.deb
 
-    https://github.com/mdomlop/batterylevel
+- Uninstall:
+
+        # apt purge snapman

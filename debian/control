@@ -1,0 +1,17 @@
+Source: batterylevel
+Section: admin
+Priority: optional
+Maintainer: Manuel Domínguez López <mdomlop@gmail.com>
+Build-Depends: debhelper (>= 9) python (>= 3.5) beep
+Standards-Version: 3.9.8
+Homepage: https://github.com/mdomlop/batterylevel
+
+Package: batterylevel
+Architecture: all
+Provides: batterylevel
+Conflicts: batterylevel-git
+Depends:
+Description: A python 3 script that reads battery values and plays
+ some sound alerts. If necessary performs some actions too,
+ like power off the the machine.
+
