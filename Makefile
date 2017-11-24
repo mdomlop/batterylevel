@@ -54,10 +54,10 @@ deb: ChangeLog
 	#fakeroot debian/rules clean
 	#fakeroot debian/rules build
 	fakeroot debian/rules binary
-	mv ../batterylevel_$(VERSION)_all.deb .
+	mv ../$(EXECUTABLE_NAME)_$(VERSION)_all.deb .
 	@echo Package done!
 	@echo You can install it as root with:
-	@echo dpkg -i batterylevel_$(VERSION)_all.deb
+	@echo dpkg -i $(EXECUTABLE_NAME)_$(VERSION)_all.deb
 
 pacman: clean
 	mkdir $(TEMPDIR)
