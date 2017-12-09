@@ -23,7 +23,7 @@ import configparser
 PROGRAM_NAME = "BatteryLevel"
 EXECUTABLE_NAME = "batterylevel"
 DESCRIPTION = "Reads battery values, performs some actions and plays some sound alerts."
-VERSION = "0.4a"
+VERSION = "0.4.1a"
 AUTHOR = "Manuel Domínguez López"  # See AUTHORS file
 MAIL = "mdomlop@gmail.com"
 SOURCE = "https://github.com/mdomlop/batterylevel"
@@ -126,8 +126,9 @@ def set_settings():
         battery.present = int(info['POWER_SUPPLY_PRESENT'])
         battery.capacity = int(info['POWER_SUPPLY_CAPACITY'])
     else:
-        print('Battery not found:', config[battery.name]['name'])
-        exit(1)
+        if settings.verbose:
+            print('Battery not found:', config[battery.name]['name'])
+        exit(0)
 
     if settings.alarm_level:
         battery.alarm_level = settings.alarm_level
